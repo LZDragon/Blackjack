@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Deck
 {
-    private List<Card> stack;
+    private List<Card> stack = new List<Card>();
     private int amountDrawn;
 
     public Deck()
@@ -30,6 +30,7 @@ public class Deck
     void GenerateDeck()
     {
         int imageIndex = 0;
+        Card generatedCard;
         for (int suit = 0; suit < 4; suit++)
         {
             for (int i = 14; i > 1; i--) //Lines up with sprite sheet
