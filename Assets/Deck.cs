@@ -5,32 +5,32 @@ using UnityEngine;
 
 public class Deck
 {
-    private List<Card> stack = new List<Card>();
-    private int amountDrawn;
+    private Stack<Card> stack = new Stack<Card>(52);
+    private Sprite[] allCardsSprites;
 
     public Deck()
     {
+        allCardsSprites = Resources.LoadAll<Sprite>("CardDeck");
         GenerateDeck();
-        Shuffle();
     }
 
-    Card Draw()
+    public Card DrawFromDeck()
     {
-        Card drawnCard = stack[amountDrawn];
-        amountDrawn++;
+        Card drawnCard = stack.Pop();
         return drawnCard;
     }
-
-    void Shuffle()
+    
+    void Shuffle<T>(ref List<T> OutList)
     {
-        stack = stack.OrderBy(x=>System.DateTime.Now.Second ).ToList();
-        amountDrawn = 0;
+        OutList = OutList.OrderBy(x=>System.DateTime.Now.Second ).ToList();
     }
 
     void GenerateDeck()
     {
         int imageIndex = 0;
         Card generatedCard;
+        int cardValue = 0;
+        List<Card> cachedDeck = new List<Card>(52);
         for (int suit = 0; suit < 4; suit++)
         {
             for (int i = 14; i > 1; i--) //Lines up with sprite sheet
@@ -40,20 +40,26 @@ public class Deck
                     if (i == 14)//Ace
                     {
                         //implement ace
-                        stack.Add(new Card(1, suit.ToString()));
+                        cardValue = 1;
                     }
                     else
                     {
-                        stack.Add(new Card(10,suit.ToString()));
+                        cardValue = 10;
                     }
                 }
                 else
                 {
-                    stack.Add(new Card(i,suit.ToString()));
+                    cardValue = i;
                 }
-
+                generatedCard = new Card(cardValue, suit.ToString(), allCardsSprites[imageIndex]);
+                cachedDeck.Add(generatedCard);
                 imageIndex++;
             }
+        }
+        Shuffle(ref cachedDeck);
+        foreach (var cachedCard in cachedDeck)
+        {
+            stack.Push(cachedCard);
         }
     }
 }
