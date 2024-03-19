@@ -4,16 +4,9 @@ using System.Collections.Generic;
 
 public class Player
 {
-    private string name;
-    private List<Card> hand = new List<Card>();
-    private bool continuePlaying;
-    private int handValue;
+    protected List<Card> hand = new List<Card>();
+    protected bool continuePlaying;
 
-    public Player(string name)
-    {
-        this.name = name;
-    }
-    
     public List<Card> Hand => hand;
     public bool ContinuePlaying
     {

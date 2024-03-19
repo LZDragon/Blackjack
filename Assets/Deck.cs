@@ -61,5 +61,6 @@ public class Deck
         {
             stack.Push(cachedCard);
         }
+        Debug.Log(stack.Count);
     }
 }
